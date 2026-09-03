@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags for character set and viewport -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Title of the page -->
+  <title>Pawel - Author Home Page</title>
+  
+</head>
+<body style="background-color: #f0f0f0; color: #333; font-family: 'Arial', sans-serif;">
+
+  <!-- Header section -->
+  <header style="background-color: #4CAF50; color: white; padding: 20px; text-align: center;">
+    <h1 style="margin: 0;">Pawel - Author Home Page</h1>
+    
+    <!-- Navigation and action buttons -->
+    <div style="margin-top: 10px;">
+      <!-- Settings Link -->
+      <a href="/author_settings" style="text-decoration: none; color: white; background-color: #FF9800; padding: 10px 20px; border-radius: 5px;">Settings</a>
+      
+      <!-- Create Draft Form Action -->
+      <form action="/create_draft" method="GET" style="display: inline-block; margin-left: 10px;">
+        <button type="submit" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Create new draft</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- Main content container -->
+  <main style="padding: 20px;">
+
+    <!-- Published Articles section -->
+    <section style="margin-top: 20px; margin-bottom: 20px;">
+      <h2 style="color: #333;">Published Articles</h2>
+      <ul style="list-style: none; padding: 0;">
+        <!-- Loop through published articles -->
+        <% publishedArticles.forEach(function(article) { %>
+          <div style="background-color: #fff; padding: 15px; margin: 10px 0; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <li style="list-style: none; margin: 0; padding: 0;">
+              <!-- Article details -->
+              <h3 style="margin: 0; color: #333;"><%= article.title %></h3>
+              <p>Subtitle: <%= article.subtitle %></p>
+              <p>Published on: <%= article.publication_date %></p>
+              <p><%= article.content.substring(0, 250) + "..." %></p>
+              <p>Likes: <%= article.likes %></p>
+
+              <!-- Edit Form Action for Published Articles -->
+              <form action="/edit_published" method="GET" style="display: inline-block; margin-right: 10px;">
+                  <input type="hidden" name="id" value="<%= article.article_id %>">
+                  <button type="submit" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Edit</button>
+              </form>
+
+              <!-- Share Article -->
+              <a href="#" onclick="copyToClipboard('<%= article.article_id %>')" data-bs-toggle="tooltip" data-bs-placement="top" title="Share Article" class="link-primary">
+                  <button type="button" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                      Share
+                  </button>
+              </a>
+            </li>
+          </div> 
+        <% }) %>
+      </ul>
+    </section>
+
+    <!-- Draft Articles section -->
+    <section style="margin-top: 20px; margin-bottom: 20px;">
+      <h2 style="color: #333;">Draft Articles</h2>
+      <ul style="list-style: none; padding: 0;">
+        <!-- Loop through draft articles -->
+        <% draftArticles.forEach(function(draft) { %>
+          <div style="background-color: #fff; padding: 15px; margin: 10px 0; border-radius: 5px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+            <li style="list-style: none; margin: 0; padding: 0;">
+              <!-- Draft details -->
+              <h3 style="margin: 0; color: #333;"><%= draft.title %></h3>
+              <p>Subtitle: <%= draft.subtitle %></p>
+              <p>Created on: <%= draft.publication_date %></p>
+              <p><%= draft.content.substring(0, 250) + "..." %></p>
+
+              <!-- Edit Form Action -->
+              <form action="/edit_draft" method="GET" style="display: inline-block; margin-right: 10px;">
+                <input type="hidden" name="id" value="<%= draft.draft_id %>">
+                <button type="submit" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Edit</button>
+              </form>
+
+              <!-- Publish Form Action -->
+              <form action="/publish-draft" method="POST" style="display: inline-block; margin-right: 10px;">
+                <input type="hidden" name="draft_id" value="<%= draft.draft_id %>">
+                <button type="submit" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Publish</button>
+              </form>
+
+              <!-- Delete Form Action -->
+              <form action="/delete-draft" method="POST" style="display: inline-block;">
+                <input type="hidden" name="draft_id" value="<%= draft.draft_id %>">
+                <button type="submit" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Delete</button>
+              </form>
+
+            </li>
+          </div>
+        <% }) %>
+      </ul>
+    </section>
+
+  </main>
+</body>
+</html>

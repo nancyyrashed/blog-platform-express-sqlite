@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Draft Article Page</title>
+  <!-- Link to Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body style="background-color: #f8f9fa; color: #343a40; font-family: 'Helvetica', sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+
+  <!-- Container for the main content -->
+  <div style="max-width: 600px; width: 100%; background-color: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); border: 1px solid #ced4da;">
+
+    <!-- Header section -->
+    <header style="background-color: #007bff; color: #fff; padding: 20px; text-align: center; border-top-left-radius: 10px; border-top-right-radius: 10px; margin-bottom: 20px;">
+      <h1 style="margin: 0;">Edit Draft Article Page</h1>
+    </header>
+
+    <!-- Article Information section -->
+    <section style="margin-top: 20px;">
+      <h2 style="color: #343a40; text-align: center;">Article Information</h2>
+      <!-- Loop through available drafts -->
+      <% availableDraft.forEach(function(article) { %>
+    </section>
+
+    <!-- Form for editing draft article -->
+    <form action="/changed-draft" method="POST" style="margin-bottom: 20px;">
+      <!-- Article Title input -->
+      <div class="mb-3">
+        <label for="articleTitle" class="form-label" style="font-size: 18px; margin-bottom: 8px;">Article Title:</label>
+        <input type="text" id="articleTitle" name="articleTitle" class="form-control" value="<%= article.title %>" placeholder="<%= article.title %>" required style="font-size: 16px; padding: 8px; margin-bottom: 16px; border-radius: 8px; width: 100%; border: 1px solid #ced4da;">
+      </div>
+      
+      <!-- Article Subtitle input -->
+      <div class="mb-3">
+        <label for="articleSubtitle" class="form-label" style="font-size: 18px; margin-bottom: 8px;">Article Subtitle:</label>
+        <input type="text" id="articleSubtitle" name="articleSubtitle" class="form-control" value="<%= article.subtitle %>" placeholder="<%= article.subtitle %>" required style="font-size: 16px; padding: 8px; margin-bottom: 16px; border-radius: 8px; width: 100%; border: 1px solid #ced4da;">
+      </div>
+      
+      <!-- Article Text textarea -->
+      <div class="mb-3">
+        <label for="articleText" class="form-label" style="font-size: 18px; margin-bottom: 8px;">Article Text:</label>
+        <textarea id="articleText" name="articleText" class="form-control" rows="8" required style="font-size: 16px; padding: 8px; margin-bottom: 16px; border-radius: 8px; width: 100%; border: 1px solid #ced4da;"><%= article.content %></textarea>
+      </div>
+
+      <!-- Hidden input fields for draft and user IDs -->
+      <div>
+        <input type="hidden" type="text" name="draftId" value="<%= article.draft_id %>">
+        <input type="hidden" type="text" name="userId" value="<%= article.user_id %>"> 
+      </div>
+      <% }) %>
+      
+      <!-- Submit Changes button -->
+      <button type="submit" class="btn btn-primary" style="background-color: #007bff; color: #fff; border: none; padding: 10px 20px; font-size: 18px; cursor: pointer; border-radius: 8px; width: 100%;">Submit Changes</button>
+    </form>
+    
+    <!-- Back button -->
+    <a href="/authors_page" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: #fff; border: none; padding: 10px 20px; font-size: 18px; cursor: pointer; border-radius: 8px; width: 100%;">Back</a>
+  </div>
+
+</body>
+</html>

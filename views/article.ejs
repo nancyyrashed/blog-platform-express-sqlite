@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Title and stylesheets -->
+  <title>Reader - Article Page</title>
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+  <!-- Header section -->
+  <header class="container mt-4 mb-4">
+    <ul class="list-group">
+      <!-- Loop through articles -->
+      <% article.forEach(function(article) { %>
+        <li class="list-group-item">
+          <!-- Article details -->
+          <h1 class="display-4"><%= article.title %></h1>
+          <h2 style="color: #333;"><%= article.subtitle %></h2>
+          <p>Published on <b><%= article.publication_date %></b></p>
+          <p style="margin: 0;">Likes: <%= article.likes %></p>
+        </li>
+
+        <!-- Article content card -->
+        <div class="card mt-2" style="border: 1px solid #ddd; padding: 10px;">
+          <div class="card-body m-2">
+            <article>
+              <p><%= article.content %></p>
+            </article>
+          </div>
+        </div>
+      <% }) %>
+    </ul>
+  </header>
+
+  <!-- Main content section -->
+  <main class="container">
+    <!-- Like button -->
+    <button id="likeButton" onclick="likeArticle(<%= article[0].article_id %>)" style="background-color: #2196F3; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Like</button>
+
+    <!-- Comment form -->
+    <div class="col-md-6">
+      <h2 style="color: #333; margin-top: 1.5rem;">Add a Comment</h2>
+      <form action="/submit-comment" method="POST">
+        <input type="hidden" name="article_id" id="article_id_input">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label for="author_name">Your Name:</label>
+          <input type="text" class="form-control" id="author_name" name="author_name" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label for="comment">Your Comment:</label>
+          <!-- Replace the textarea with a div for Quill to initialize -->
+          <div id="editor" style="height: 200px; border: 1px solid #ddd;"></div>
+          <!-- Include the hidden input to store the HTML content -->
+          <input type="hidden" id="comment" name="comment" required>
+        </div>
+        <button type="submit" class="btn btn-secondary mt-3" style="background-color: #6c757d; color: white;">Submit Comment</button>
+      </form>
+    </div>
+
+    <!-- Previous Comments section -->
+    <h2 style="color: #333; margin-top: 1.5rem;">Previous Comments</h2>
+    <ul class="list-group">
+      <!-- Loop through comments -->
+      <% comments.forEach(function(comment) { %>
+        <li class="list-group-item">
+          <p style="margin: 0;"> <%= comment.comment_date %></p>
+          <!-- Use <%- %> to render comment text as plain text -->
+          <p style="margin: 0;"><%- comment.comment %></p>
+          <p style="margin: 0;"> <%= comment.author_name %></p>
+          <p style="margin: 0;"> <%= comment.email %></p>
+        </li>
+      <% }) %>
+    </ul>
+
+    <!-- Back to home button -->
+    <div class="pb-5">
+      <a href="/" class="btn btn-danger mt-4" style="background-color: #dc3545; color: white;">Back to home</a>
+    </div>
+  </main>
+
+  <!-- Include Quill JS -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <!-- Custom script -->
+  <script>
+    const articleIds = <%= JSON.stringify(article.map(a => a.article_id)) %>;
+    const commentForm = document.querySelector('form');
+    const articleIdInput = document.getElementById('article_id_input');
+
+    commentForm.addEventListener('submit', (event) => {
+      const currentArticleId = articleIds[0];
+      articleIdInput.value = currentArticleId;
+
+      // Set the value of the hidden input with the HTML content from Quill
+      const commentHtml = quill.root.innerHTML;
+      document.getElementById('comment').value = commentHtml;
+    });
+
+    const quill = new Quill('#editor', {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          // Customize toolbar options as needed
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          ['link', 'image'],
+          ['clean']
+        ]
+      }
+    });
+
+    async function likeArticle(articleId) {
+      try {
+        const response = await fetch('/like-article', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ article_id: articleId }),
+        });
+
+        if (response.ok) {
+          console.log('Like successful');
+        } else {
+          console.error('Like failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  </script>
+</body>
+</html>

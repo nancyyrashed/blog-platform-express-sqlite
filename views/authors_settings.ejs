@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags for character set and viewport -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Title of the page -->
+  <title>Pawel - Author Settings</title>
+
+</head>
+<body style="background-color: #f0f0f0; color: #333; font-family: 'Arial', sans-serif;">
+
+  <!-- Header section -->
+  <header style="background-color: #4CAF50; color: white; padding: 20px; text-align: center;">
+    <h1 style="margin: 0;">Author Settings</h1>
+    
+    <!-- Back button -->
+    <div style="margin-top: 10px;">
+      <a href="/authors_page" style="text-decoration: none; color: white; background-color: #FF9800; padding: 10px 20px; border-radius: 5px;">Back</a>
+    </div>
+  </header>
+
+  <!-- Main content container -->
+  <section class="container col-md-8 col-lg-5 p-4 align-items-center shadow mt-5" style="padding: 20px; margin-top: 20px;">
+    <div class="mb-5">
+      <!-- Main heading -->
+      <h1 class="display-2 fw-bold text-primary">Author Settings</h1>
+    </div>
+
+    <!-- Author settings form -->
+    <form id="settingForm">
+      <!-- Author Name input -->
+      <div class="mb-3">
+        <label for="author-name" class="form-label" style="margin-bottom: 1rem; display: block;">Name: </label>
+        <input type="text" class="form-control" name="author_name" id="author_name" value="<%- authorData.author_name %>" required>
+      </div>
+
+      <!-- Blog Title input -->
+      <div class="mb-3">
+        <label for="blog-title" class="form-label" style="margin-bottom: 1rem; display: block;">Blog Title</label>
+        <input type="text" class="form-control" id="blog-title" name="blogTitle" value="<%- authorData.blogTitle %>" required>
+      </div>
+
+      <!-- Blog Subtitle textarea -->
+      <div class="mb-3">
+        <label for="blog-subtitle" class="form-label" style="margin-bottom: 1rem; display: block;">Blog subtitle</label>
+        <textarea id="blog-subtitle" name="blogSubtitle" class="form-control form-control-md" rows="5" required><%- authorData.blogSubtitle %></textarea>
+      </div>
+
+      <!-- Submit button and loading spinner -->
+      <div class="d-flex align-items-center justify-content-end">
+        <div class="d-flex flex-column">
+          <span class="px-3 text-muted fst-italic" id="message"></span>
+          <div class="spinner-border spinner-border-sm text-primary mx-3 visually-hidden" id="loadingSpinner" role="status"></div>
+        </div>
+        <button type="submit" id="submit" class="btn btn-primary" style="margin-left: 1rem;">Update blog</button>
+      </div>
+    </form>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+</head>
+<body style="font-family: 'Arial', sans-serif; background-color: #f4f4f4; color: #333;">
+
+  <!-- Container for the main content -->
+  <div class="container mt-5" style="text-align: center;">
+
+    <!-- Page heading -->
+    <h1 style="color: #007bff;">Welcome to the Home Page</h1>
+    
+    <!-- User role selection form -->
+    <form action="/redirect" method="post" style="margin-top: 20px;">
+
+      <!-- Label for user role selection -->
+      <label for="userType" style="font-size: 18px; margin-right: 10px;">Choose your role:</label>
+
+      <!-- Dropdown for user role selection -->
+      <select id="userType" name="userType" style="font-size: 16px; padding: 5px;">
+        <option value="reader">Reader</option>
+        <option value="author">Author</option>
+      </select>
+
+      <!-- Submit button -->
+      <button type="submit" style="font-size: 16px; padding: 8px 15px; background-color: #007bff; color: #fff; border: none; cursor: pointer;">
+        Go
+      </button>
+    </form>
+  </div>
+
+</body>
+</html>
